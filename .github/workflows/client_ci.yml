@@ -7,9 +7,6 @@ jobs:
 
     runs-on: ubuntu-latest
 
-    env:
-      CI: 'true'
-
     steps:
     - uses: actions/checkout@v1
     - name: Setup Node.js for use with actions
@@ -17,6 +14,10 @@ jobs:
     - name: Install dependencies
       run: yarn install
       working-directory: client
-    - name: Run a lint and build
+    - uses: hallee/eslint-action@master
+      working-directory: client
+      with:
+        repo-token: "${{ secrets.GITHUB_TOKEN }}"
+    - name: Run a build
       run: yarn build
       working-directory: client
