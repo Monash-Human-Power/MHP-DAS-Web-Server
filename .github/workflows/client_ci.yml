@@ -1,0 +1,21 @@
+name: DAShboard Client CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Go to client/
+      run: cd client
+    - name: Setup Node.js for use with actions
+      uses: actions/setup-node@v1.1.0
+    - name: Install dependencies
+      run: yarn install
+    - name: Run a lint and build
+      run: yarn build
+      env:
+        CI: true
