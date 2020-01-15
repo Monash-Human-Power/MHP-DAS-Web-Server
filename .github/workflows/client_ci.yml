@@ -7,6 +7,9 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    env:
+      CI: 'true'
+
     steps:
     - uses: actions/checkout@v1
     - name: Setup Node.js for use with actions
@@ -17,5 +20,4 @@ jobs:
     - name: Run a lint and build
       run: yarn build
       working-directory: client
-      env:
-        CI: true
+      
