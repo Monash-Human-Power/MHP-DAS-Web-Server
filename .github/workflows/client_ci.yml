@@ -2,9 +2,6 @@ name: DAShboard Client CI
 
 on: [push]
 
-env:
-  CI: true
-
 jobs:
   build:
 
@@ -20,3 +17,5 @@ jobs:
     - name: Run a lint and build
       run: yarn build
       working-directory: client
+      env:
+        CI: true
