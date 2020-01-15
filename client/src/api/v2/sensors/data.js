@@ -27,11 +27,6 @@ import { useChannel } from '../socket';
  * @property {?number} cadence         Cadence
  */
 
-/**
- * Use current sensor data
- *
- * @returns {SensorData} Sensor data
- */
 export function useData() {
   const [data, setData] = useState({
     gps: null,
@@ -63,7 +58,7 @@ export function useData() {
       ...prevState,
       ...newData,
     }));
-  }, []);
+  }, [])
   useChannel('data', handler);
 
   return data;
