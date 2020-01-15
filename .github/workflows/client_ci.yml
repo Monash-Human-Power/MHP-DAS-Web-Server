@@ -2,6 +2,9 @@ name: DAShboard Client CI
 
 on: [push]
 
+env:
+  CI: true
+
 jobs:
   build:
 
@@ -9,13 +12,11 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Go to client/
-      run: cd client
     - name: Setup Node.js for use with actions
       uses: actions/setup-node@v1.1.0
     - name: Install dependencies
       run: yarn install
+      working-directory: client
     - name: Run a lint and build
       run: yarn build
-      env:
-        CI: true
+      working-directory: client
