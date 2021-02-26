@@ -3,22 +3,29 @@ import { BoostConfigType } from 'types/boost';
 
 type action = 'upload' | 'delete';
 
-function sendConfig(actionType: action, type: BoostConfigType, name: string, configContent: string | null) {
+/**
+ * Send configuration status over MQTT on topic 'boost/configs/action'
+ * @param actionType represents whether the config is being uploaded or deleted
+ * @param type the type of the configuration being sent
+ * @param configContent configuration content
+ */
+function sendConfig(actionType: action, type: BoostConfigType, configContent: string | null) {
   const topic = 'send-config';
   const payload = {
     action: actionType,
     configType: type,
-    configName: name,
     content: configContent,
   };
   emit(topic, JSON.stringify(payload));
 }
 
 /**
- * Send the content of the given configuration file on `boost/configs/action` over MQTT
+ * Read content from the given file and send it on `boost/configs/action` over MQTT. 
+ * If the content contains more than config (i.e. `type` is 'all'), the content is
+ * split into the different configurations.
  *
- * @param type the type of the configuration being sent
- * @param configFile list of files, only the first would be considered
+ * @param type the type of the configuration
+ * @param configFile file containing content of the configuration
  */
 export default function uploadConfig(
   type: BoostConfigType,
@@ -38,6 +45,7 @@ export default function uploadConfig(
     else if (typeof reader.result === 'string') {
       sendConfig('upload', type, configFile.name, reader.result);
     };
+
   reader.readAsText(configFile);
   }
 };
