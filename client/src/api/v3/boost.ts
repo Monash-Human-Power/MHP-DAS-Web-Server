@@ -3,7 +3,7 @@ import { BoostConfigType } from 'types/boost';
 
 type action = 'upload' | 'delete';
 
-function sendConfig(actionType: action, type: BoostConfigType, name: string, configContent: string | null | ArrayBuffer) {
+function sendConfig(actionType: action, type: BoostConfigType, name: string, configContent: string | null) {
   const topic = 'send-config';
   const payload = {
     action: actionType,
@@ -35,9 +35,9 @@ export default function uploadConfig(
         sendConfig('upload', <BoostConfigType>key, allConfigs[key]['name'], null);
       };
     }
-    else {
-    sendConfig('upload', type, configFile.name, reader.result);
-  };
+    else if (typeof reader.result === 'string') {
+      sendConfig('upload', type, configFile.name, reader.result);
+    };
   reader.readAsText(configFile);
   }
 };
