@@ -31,6 +31,7 @@ export default function uploadConfig(
   type: BoostConfigType,
   configFile: File,
 ) {
+  const topic = 'send-config';
   const reader = new FileReader();
 
   // Called when FileReader has completed reading a file
@@ -39,11 +40,11 @@ export default function uploadConfig(
     if (type == 'all' && reader.result != null && typeof reader.result === 'string') {
       const allConfigs = JSON.parse(reader.result);
       for (const [key, ] of Object.entries(allConfigs)) {
-        sendConfig('upload', <BoostConfigType>key, allConfigs[key]['name'], null);
+        sendConfig('upload', <BoostConfigType>key, null);
       };
     }
     else if (typeof reader.result === 'string') {
-      sendConfig('upload', type, configFile.name, reader.result);
+      sendConfig('upload', type, reader.result);
     };
 
   reader.readAsText(configFile);
