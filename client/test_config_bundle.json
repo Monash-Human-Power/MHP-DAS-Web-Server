@@ -1,9 +1,9 @@
 {
-    rider: {
+    "rider": {
       "name": "Default rider",
       "mass": 75
     },
-    track: {
+    "track": {
       "name": "Battle Mountain",
       "length": 8047,
       "trapStart": 7847,
@@ -15,7 +15,7 @@
         "constant": -0.0066
       }
     },
-    powerPlan: {
+    "powerPlan": {
       "name": "default",
       "inrunPower": 100,
       "zones": [
@@ -30,7 +30,7 @@
         "step": 100
       }
     },
-    bike: {
+    "bike": {
         "name": "Wombat",
         "bikeMass": 56.2,
         "dtLoss": 0.06,
