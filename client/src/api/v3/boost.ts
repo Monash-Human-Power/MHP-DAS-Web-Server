@@ -5,6 +5,7 @@ type action = 'upload' | 'delete';
 
 /**
  * Send configuration status over MQTT on topic 'boost/configs/action'
+ * 
  * @param actionType represents whether the config is being uploaded or deleted
  * @param type the type of the configuration being sent
  * @param configContent configuration content
@@ -16,6 +17,7 @@ function sendConfig(actionType: action, type: BoostConfigType, configContent: st
     configType: type,
     content: configContent,
   };
+  console.log(payload);
   emit(topic, JSON.stringify(payload));
 }
 
@@ -31,22 +33,23 @@ export default function uploadConfig(
   type: BoostConfigType,
   configFile: File,
 ) {
-  const topic = 'send-config';
   const reader = new FileReader();
 
   // Called when FileReader has completed reading a file
   reader.onload = () => {
-    console.log(reader.result);
-    if (type == 'all' && reader.result != null && typeof reader.result === 'string') {
+    if (type === 'all' && reader.result != null && typeof reader.result === 'string') {
       const allConfigs = JSON.parse(reader.result);
-      for (const [key, ] of Object.entries(allConfigs)) {
-        sendConfig('upload', <BoostConfigType>key, null);
-      };
+
+      // For each config, send the config content over MQTT
+      Object.keys(allConfigs).forEach((key) => {
+        sendConfig('upload', key as BoostConfigType, allConfigs[key]);
+      });
     }
     else if (typeof reader.result === 'string') {
+      console.log('Uploaded single config file');
       sendConfig('upload', type, reader.result);
     };
+  };
 
   reader.readAsText(configFile);
-  }
 };
