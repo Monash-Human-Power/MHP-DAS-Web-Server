@@ -17,6 +17,7 @@ function sendConfig(actionType: action, type: BoostConfigType, configContent: st
     configType: type,
     content: configContent,
   };
+  // To check things work without needing the server started
   console.log(payload);
   emit(topic, JSON.stringify(payload));
 }
@@ -46,7 +47,6 @@ export default function uploadConfig(
       });
     }
     else if (typeof reader.result === 'string') {
-      console.log('Uploaded single config file');
       sendConfig('upload', type, reader.result);
     };
   };
