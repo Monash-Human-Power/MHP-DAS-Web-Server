@@ -36,10 +36,10 @@ export default function BoostConfigurator({
   const fileInput = createRef<HTMLInputElement>();
   const [configType, setConfigType] = useState<BoostConfigType>('all');
 
-  const [displayMessage, setDisplayMessage] = useState({head: '', body: ''});
+  const [displayMessage, setDisplayMessage] =useState({head: '', body: ''});
 
   const [showModal, setShowModal] = useState(false);
-  const handleErrorClose = () => setShowModal(false);
+  const handleModalClose = () => setShowModal(false);
 
   // Function to click the hidden file input button (this is a work around to avoid the ugly
   // UI of the default input file button)
@@ -75,7 +75,7 @@ export default function BoostConfigurator({
 
   return (
     <>
-      <Modal show={showModal} onHide={handleErrorClose}>
+      <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>
             <FontAwesomeIcon icon={faExclamationTriangle} />
@@ -84,7 +84,7 @@ export default function BoostConfigurator({
         </Modal.Header>
         <Modal.Body>{displayMessage.body}</Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleErrorClose}>
+          <Button variant="secondary" onClick={handleModalClose}>
             Close
           </Button>
         </Modal.Footer>
