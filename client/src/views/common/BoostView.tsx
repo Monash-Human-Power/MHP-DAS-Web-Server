@@ -3,7 +3,7 @@ import ContentPage from 'components/common/ContentPage';
 import BoostCalibration from 'components/common/boost/BoostCalibration';
 import BoostConfigurator from 'components/common/boost/BoostConfigurator';
 import { setCalibration, resetCalibration } from 'api/common/powerModel';
-import uploadConfig from 'api/v3/boost';
+import uploadConfig, {sendConfig} from 'api/v3/boost';
 import { BoostConfigType, BoostConfig } from 'types/boost';
 
 // TODO: Implement actual functions for `onSelectConfig`, `onDeleteConfig` and true values for `baseConfigs` (provided from `boost`)
@@ -21,15 +21,13 @@ function onSelectConfig(configType: BoostConfigType, name: string) {
 }
 
 /**
- * Inform boost of the deletion of the given config file
+ * Inform boost of the deletion of the given config file on topic 'boost/connfigs/action'
  * 
  * @param configType the type of the config
  * @param name name of the config file
  */
 function onDeleteConfig(configType: BoostConfigType, name: string) {
-  console.log("Deleted config:");
-  console.log(`type: ${configType}`);
-  console.log(`name: ${name}`);
+  sendConfig('delete', configType, JSON.stringify({name: name.replace(".json", "")}));
 }
 
 // Only dummy data
