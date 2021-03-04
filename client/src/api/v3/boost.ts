@@ -11,7 +11,7 @@ type payloadAction = 'upload' | 'delete';
  * @param type the type of the configuration being sent
  * @param configContent configuration content
  */
-export function sendConfig(
+function sendConfig(
   actionType: payloadAction,
   type: BoostConfigType,
   configContent: string | null,
