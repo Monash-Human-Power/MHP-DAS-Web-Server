@@ -36,7 +36,7 @@ export default function BoostConfigurator({
   const fileInput = createRef<HTMLInputElement>();
   const [configType, setConfigType] = useState<BoostConfigType>('all');
 
-  const [displayMessage, setDisplayMessage] =useState({head: '', body: ''});
+  const [displayMessage, setDisplayMessage] =useState('');
 
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => setShowModal(false);
@@ -66,7 +66,7 @@ export default function BoostConfigurator({
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files != null && event.target.files.length !== 0) {
       const dispErr = (message: string) => {
-        setDisplayMessage({head: 'Upload Failed', body: message});
+        setDisplayMessage(message);
         setShowModal(true);
       };
       onUploadConfig(configType, event.target.files[0], dispErr, configExist);
@@ -79,10 +79,10 @@ export default function BoostConfigurator({
         <Modal.Header closeButton>
           <Modal.Title>
             <FontAwesomeIcon icon={faExclamationTriangle} />
-            <b className="mx-3">{displayMessage.head}</b>
+            <b className="mx-3"> Upload failed</b>
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>{displayMessage.body}</Modal.Body>
+        <Modal.Body>{displayMessage}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleModalClose}>
             Close
