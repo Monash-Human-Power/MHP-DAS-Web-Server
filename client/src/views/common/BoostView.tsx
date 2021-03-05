@@ -3,8 +3,9 @@ import ContentPage from 'components/common/ContentPage';
 import BoostCalibration from 'components/common/boost/BoostCalibration';
 import BoostConfigurator from 'components/common/boost/BoostConfigurator';
 import { setCalibration, resetCalibration } from 'api/common/powerModel';
-import uploadConfig from 'api/v3/boost';
+import uploadConfig, {sendConfig} from 'api/v3/boost';
 import { BoostConfigType, BoostConfig } from 'types/boost';
+import toast from 'react-hot-toast';
 
 // TODO: Implement actual functions for `onSelectConfig`, `onDeleteConfig` and true values for `baseConfigs` (provided from `boost`)
 
@@ -30,6 +31,8 @@ function onDeleteConfig(configType: BoostConfigType, name: string) {
   console.log("Deleted config:");
   console.log(`type: ${configType}`);
   console.log(`name: ${name}`);
+  sendConfig('delete',configType, null);
+  toast.success(`${name} deleted`);
 }
 
 // Only dummy data
@@ -63,6 +66,12 @@ const baseConfigs: BoostConfig[] = [
  */
 export default function BoostView() {
   // TODO: remove the hardcoded value for `distTravelled` with actual value read from MQTT
+
+  const handleDelete = (configType: BoostConfigType, configName: string) => {
+    // TODO: Remove the config file from `baseConfigs`
+    onDeleteConfig(configType, configName);
+  };
+
   return (
     <ContentPage title="Boost Configuration">
       <BoostCalibration
@@ -74,7 +83,7 @@ export default function BoostView() {
       <BoostConfigurator
         configs={baseConfigs}
         onSelectConfig={onSelectConfig}
-        onDeleteConfig={onDeleteConfig}
+        onDeleteConfig={handleDelete}
         onUploadConfig={uploadConfig}
       />
     </ContentPage>
