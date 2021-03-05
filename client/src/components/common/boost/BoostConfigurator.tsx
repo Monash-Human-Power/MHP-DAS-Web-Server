@@ -36,10 +36,14 @@ export default function BoostConfigurator({
   const fileInput = createRef<HTMLInputElement>();
   const [configType, setConfigType] = useState<BoostConfigType>('all');
 
+  const [confirmDeleteion, setConfirmDeletion] = useState({show: false, configName: ''});
+
   const [displayMessage, setDisplayMessage] =useState('');
 
   const [showModal, setShowModal] = useState(false);
   const handleModalClose = () => setShowModal(false);
+
+  const handleConfirmDialogClose = () => setConfirmDeletion({...confirmDeleteion, show:false});
 
   // Function to click the hidden file input button (this is a work around to avoid the ugly
   // UI of the default input file button)
@@ -75,6 +79,23 @@ export default function BoostConfigurator({
 
   return (
     <>
+      <Modal show={confirmDeleteion.show} onHide={handleConfirmDialogClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>
+            <FontAwesomeIcon icon={faExclamationTriangle} />
+            <b className="mx-3"> Confirm Deletion</b>
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete {setConfirmDeletion.name}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleConfirmDialogClose}>
+            No
+          </Button>
+          <Button variant="danger" onClick={() => onDeleteConfig(configType, confirmDeleteion.configName)}>
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Modal show={showModal} onHide={handleModalClose}>
         <Modal.Header closeButton>
           <Modal.Title>
@@ -142,7 +163,9 @@ export default function BoostConfigurator({
                         onSelectConfig(config.type, name)
                       }
                       onDeleteConfig={(name) =>
-                        onDeleteConfig(config.type, name)
+                        {
+                          setConfirmDeletion({show: true, configName: name});
+                        }
                       }
                     />
                   </Card.Body>
