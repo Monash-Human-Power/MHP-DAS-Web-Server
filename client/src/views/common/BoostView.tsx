@@ -10,18 +10,6 @@ import toast from 'react-hot-toast';
 // TODO: Implement actual functions for `onSelectConfig`, `onDeleteConfig` and true values for `baseConfigs` (provided from `boost`)
 
 /**
- * Send the config selection to `boost`
- * 
- * @param configType the type of the config
- * @param name name of the config file
- */
-function onSelectConfig(configType: BoostConfigType, name: string) {
-  console.log("Selected config:");
-  console.log(`type: ${configType}`);
-  console.log(`name: ${name}`);
-}
-
-/**
  * Inform boost of the deletion of the given config file
  * 
  * @param configType the type of the config
@@ -72,6 +60,25 @@ export default function BoostView() {
     onDeleteConfig(configType, configName);
   };
 
+  const handleSelect = (configTypeSelected: BoostConfigType, configName: string) => {
+
+    type payloadType = {[key: string]: string | undefined};
+    const payload: payloadType = {};
+
+    // Populate payload with the currently active or sleected config for each config type
+    baseConfigs.forEach((config) => {
+      if (config.type === configTypeSelected) {
+        payload[config.type] = configName;
+      }
+      else {
+        payload[config.type] = config.active;
+      }
+    }
+    );
+    console.log('Payload after selection:');
+    console.log(payload);
+  };
+
   return (
     <ContentPage title="Boost Configuration">
       <BoostCalibration
@@ -82,7 +89,7 @@ export default function BoostView() {
       />
       <BoostConfigurator
         configs={baseConfigs}
-        onSelectConfig={onSelectConfig}
+        onSelectConfig={handleSelect}
         onDeleteConfig={handleDelete}
         onUploadConfig={uploadConfig}
       />

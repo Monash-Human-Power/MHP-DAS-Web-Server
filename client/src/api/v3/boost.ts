@@ -29,7 +29,7 @@ export function sendConfig(
 
 /**
  * Read content from the given file and send it on `boost/configs/action` over MQTT.
- * If the content contains more than one config (i.e. `type` is 'all'), the content is
+ * If the content contains more than one config (i.e. `type` is "all'), the content is
  * split into the different configurations before sending.
  *
  * @param type the type of the configuration
@@ -49,7 +49,7 @@ export default function uploadConfig(
   // Called when FileReader has completed reading a file
   reader.onload = () => {
     const fileContent = reader.result as string;
-    if (type === 'all') {
+    if (type === "all") {
       const allConfigs = JSON.parse(fileContent);
 
       // Check that no config is repeated and that all configs are present
