@@ -13,14 +13,14 @@ import toast from 'react-hot-toast';
  * Inform boost of the deletion of the given config file
  * 
  * @param configType the type of the config
- * @param name name of the config file
+ * @param configName name of the config file
  */
-function onDeleteConfig(configType: BoostConfigType, name: string) {
+function onDeleteConfig(configType: BoostConfigType, configName: string) {
   console.log("Deleted config:");
   console.log(`type: ${configType}`);
-  console.log(`name: ${name}`);
-  sendConfig('delete',configType, null);
-  toast.success(`${name} deleted`);
+  console.log(`name: ${configName}`);
+  sendConfig('delete',configType, JSON.stringify({name: configName}));
+  toast.success(`${configName} deleted`);
 }
 
 // Only dummy data
