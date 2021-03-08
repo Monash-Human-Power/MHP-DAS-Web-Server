@@ -251,6 +251,10 @@ sockets.init = function socketInit(server) {
       mqttClient.publish(BOOST.calibrate, `calibrate=${calibratedDistance}`);
     });
 
+    socket.on('submit-selected-configs', (selectedConfigs) => {
+      mqttClient.publish(BOOST.generate, selectedConfigs);
+    });
+
     socket.on('send-message', (message) => {
       const payload = JSON.stringify({ message });
       mqttClient.publish(Camera.overlay_message, payload);

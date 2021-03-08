@@ -6,6 +6,7 @@ import { setCalibration, resetCalibration } from 'api/common/powerModel';
 import uploadConfig, {sendConfig} from 'api/v3/boost';
 import { BoostConfigType, BoostConfig } from 'types/boost';
 import toast from 'react-hot-toast';
+import { emit } from 'api/common/socket';
 
 // TODO: Implement actual functions for `onSelectConfig`, `onDeleteConfig` and true values for `baseConfigs` (provided from `boost`)
 
@@ -60,12 +61,13 @@ export default function BoostView() {
     onDeleteConfig(configType, configName);
   };
 
+  const selectedConfigChannel = 'submit-selected-configs';
+  type selectedConfigType = {[key: string]: string | undefined};
+
   const handleSelect = (configTypeSelected: BoostConfigType, configName: string) => {
+    const payload: selectedConfigType = {};
 
-    type payloadType = {[key: string]: string | undefined};
-    const payload: payloadType = {};
-
-    // Populate payload with the currently active or sleected config for each config type
+    // Populate payload with the currently active or salected config for each config type
     baseConfigs.forEach((config) => {
       if (config.type === configTypeSelected) {
         payload[config.type] = configName;
@@ -77,6 +79,7 @@ export default function BoostView() {
     );
     console.log('Payload after selection:');
     console.log(payload);
+    emit(selectedConfigChannel, JSON.stringify(payload));
   };
 
   return (
