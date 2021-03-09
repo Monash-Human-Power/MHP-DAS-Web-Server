@@ -39,9 +39,10 @@ const baseConfigs: BoostConfig[] = [
  */
 export default function BoostView() {
   // TODO: remove the hardcoded value for `distTravelled` with actual value read from MQTT
-  const selectedConfigChannel = 'submit-selected-configs';
-  type selectedConfigType = {[key: string]: string | undefined};
   
+  const sendSelectedConfigChannel = 'submit-selected-configs';
+  type selectedConfigType = {[key: string]: string | undefined};
+
   const handleDelete = (configType: BoostConfigType, configName: string) => {
     // TODO: Remove the config file from `baseConfigs`
     console.log("Deleted config:");
@@ -66,7 +67,7 @@ export default function BoostView() {
     );
     console.log('Payload after selection:');
     console.log(payload);
-    emit(selectedConfigChannel, JSON.stringify(payload));
+    emit(sendSelectedConfigChannel, JSON.stringify(payload));
   };
 
   return (
