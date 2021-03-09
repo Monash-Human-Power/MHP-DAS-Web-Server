@@ -8,22 +8,6 @@ import { BoostConfigType, BoostConfig } from 'types/boost';
 import toast from 'react-hot-toast';
 import { emit } from 'api/common/socket';
 
-// TODO: Implement actual functions for `onSelectConfig`, `onDeleteConfig` and true values for `baseConfigs` (provided from `boost`)
-
-/**
- * Inform boost of the deletion of the given config file
- * 
- * @param configType the type of the config
- * @param configName name of the config file
- */
-function onDeleteConfig(configType: BoostConfigType, configName: string) {
-  console.log("Deleted config:");
-  console.log(`type: ${configType}`);
-  console.log(`name: ${configName}`);
-  sendConfig('delete',configType, JSON.stringify({name: configName}));
-  toast.success(`${configName} deleted`);
-}
-
 // Only dummy data
 const baseConfigs: BoostConfig[] = [
   {
@@ -55,14 +39,17 @@ const baseConfigs: BoostConfig[] = [
  */
 export default function BoostView() {
   // TODO: remove the hardcoded value for `distTravelled` with actual value read from MQTT
-
-  const handleDelete = (configType: BoostConfigType, configName: string) => {
-    // TODO: Remove the config file from `baseConfigs`
-    onDeleteConfig(configType, configName);
-  };
-
   const selectedConfigChannel = 'submit-selected-configs';
   type selectedConfigType = {[key: string]: string | undefined};
+  
+  const handleDelete = (configType: BoostConfigType, configName: string) => {
+    // TODO: Remove the config file from `baseConfigs`
+    console.log("Deleted config:");
+    console.log(`type: ${configType}`);
+    console.log(`name: ${configName}`);
+    sendConfig('delete',configType, JSON.stringify({name: configName}));
+    toast.success(`${configName} deleted`);
+  };
 
   const handleSelect = (configTypeSelected: BoostConfigType, configName: string) => {
     const payload: selectedConfigType = {};
