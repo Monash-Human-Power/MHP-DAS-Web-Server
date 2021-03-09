@@ -45,9 +45,7 @@ export default function BoostView() {
 
   const handleDelete = (configType: BoostConfigType, configName: string) => {
     // TODO: Remove the config file from `baseConfigs`
-    console.log("Deleted config:");
-    console.log(`type: ${configType}`);
-    console.log(`name: ${configName}`);
+    console.log(`Delete ${configName} ${configType} config`);
     sendConfig('delete',configType, JSON.stringify({name: configName}));
     toast.success(`${configName} deleted`);
   };
@@ -65,8 +63,7 @@ export default function BoostView() {
       }
     }
     );
-    console.log('Payload after selection:');
-    console.log(payload);
+    console.log(`Payload after selection: ${payload}`);
     emit(sendSelectedConfigChannel, JSON.stringify(payload));
   };
 
