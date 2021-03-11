@@ -58,8 +58,12 @@ export default function BoostConfigurator({
   const configExist = (type: BoostConfigType, name: string) => {
     let found = false;
     configs.forEach((config) => {
-      if (config.type === type && config.options.includes(`${name}.json`)) {
-        found = true;
+      if (config.type === type) {
+        config.options.forEach((configName) => {
+          if (configName.displayName === name) {
+            found = true;
+          }
+        });
       }
     });
     return found;
